@@ -2,34 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\MagicCredentials;
-use Illuminate\Http\Request;
+use App\Support\Passwordless;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class LoginAuthenticateController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke()
     {
-        if(!request()->filled('token') && !request()->filled('code')) {
-            return response()->json(['error' => 'Something went wrong', 400]);
+        if(!request()->hasValidSignature()) {
+            return response()->json(['error' => 'The link has expired'], 400);
         }
 
-        $valid = MagicCredentials::query()
-            ->get()
-            ->filter(function($magic) {
-                if(request()->filled('token')) {
-                    return Hash::check(request()->input('token'), $magic->token);
-                }
-                return Hash::check(request()->input('code'), $magic->code);
-            })
-            ->first();
+        if(!request()->filled('token') && !request()->filled('code')) {
+            return response()->json(['error' => 'Something went wrong'], 400);
+        }
 
-        if(!$valid) {
+        $verified = Passwordless::verify();
+
+        if(!$verified) {
             return response()->json(['message' => 'The Token is not valid or it has been expired'], 422);
         }
 
-        Auth::loginUsingId($valid->user_id);
-
+        Auth::loginUsingId($verified->user_id);
+        return "Logged In";
     }
 }
