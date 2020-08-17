@@ -44,7 +44,9 @@ class GenerateMagicCredentailListener implements ShouldQueue
         $magic->user_id = $user->id;
         $magic->save();
 
-        $magic_link = url('loginwithemail?token='.$token);
+        $magic_link = URL::temporarySignedRoute('login.authenticate.email', now()->addMinutes(1), [
+            'token' => $token
+        ]);
 
         $user->notify(new SendMagicCredentialsNotification($magic_link, $code));
 
