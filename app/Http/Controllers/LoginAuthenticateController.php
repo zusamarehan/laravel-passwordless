@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\LoggedInEvent;
 use App\Support\Passwordless;
+use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class LoginAuthenticateController extends Controller
@@ -29,19 +30,8 @@ class LoginAuthenticateController extends Controller
         $cookie = base64_encode($verified->token.uniqid().$verified->code);
         event(new LoggedInEvent($verified->user_id, $cookie));
 
-        return response()->json(['message' => 'ok'])
-            ->withCookie(new Cookie(
-                'pudding_v2Cookie',
-                $cookie,
-                now()->addDays(30),
-                null,
-                request()->getHost(),
-                true,
-                true,
-                false,
-                'lax'
-            )
-        );
+        return response('ok')
+            ->cookie(new Cookie('pudding_v2Cookie', $cookie, now()->addDays(30)));
 
     }
 }
