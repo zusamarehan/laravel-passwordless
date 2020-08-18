@@ -26,6 +26,6 @@ class LoginAuthenticateController extends Controller
         }
 
         Auth::loginUsingId($verified->user_id);
-        return "Logged In";
+        return auth()->user();
     }
 }
