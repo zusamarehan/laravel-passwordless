@@ -9,8 +9,10 @@ class LoginAuthenticateController extends Controller
 {
     public function __invoke()
     {
-        if(!request()->hasValidSignature()) {
-            return response()->json(['error' => 'The link has expired'], 400);
+        if(request()->filled('token')) {
+            if(!request()->hasValidSignature()) {
+                return response()->json(['error' => 'The link has expired'], 400);
+            }
         }
 
         if(!request()->filled('token') && !request()->filled('code')) {

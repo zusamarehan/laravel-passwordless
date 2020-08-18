@@ -40,7 +40,7 @@ class Passwordless
 
     public function generateURL()
     {
-        return $this->url = URL::temporarySignedRoute('login.authenticate.email', now()->addMinutes(1), [
+        return $this->url = URL::temporarySignedRoute('login.authenticate.email', now()->addMinutes(config('passwordless.expiry')), [
             'token' => $this->token
         ]);
     }

@@ -32,7 +32,7 @@ class RemoveExpiredMagicCredentialsJob implements ShouldQueue
     public function handle()
     {
         MagicCredentials::query()
-            ->where('created_at', '<=', Carbon::now()->subMinutes(1))
+            ->where('created_at', '<=', Carbon::now()->subMinutes(config('passwordless.expiry')))
             ->delete();
     }
 }
