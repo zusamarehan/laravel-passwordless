@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\LoggedInEvent;
 use App\Events\LoginRequestEvent;
 use App\Listeners\GenerateMagicCredentailListener;
+use App\Listeners\RemoveUsedMagicCredentailsListener;
+use App\Listeners\StoreUserCookieListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         LoginRequestEvent::class => [
             GenerateMagicCredentailListener::class
+        ],
+        LoggedInEvent::class => [
+            RemoveUsedMagicCredentailsListener::class,
+            StoreUserCookieListener::class
         ]
     ];
 

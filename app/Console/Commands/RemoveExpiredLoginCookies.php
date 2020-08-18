@@ -2,24 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\RemoveExpiredMagicCredentialsJob;
+use App\Jobs\RemoveExpiredLoginCookieJob;
 use Illuminate\Console\Command;
 
-class RemoveExpiredMagicCredentialCommand extends Command
+class RemoveExpiredLoginCookies extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'pudding:removeexpiredmagiccredentials';
+    protected $signature = 'pudding:removeexpiredlogincookies';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'The Command used to remove Magic Credentials from the database after expiry';
+    protected $description = 'The Command used to remove Login Cookie from the database after expiry';
 
     /**
      * Create a new command instance.
@@ -38,6 +38,6 @@ class RemoveExpiredMagicCredentialCommand extends Command
      */
     public function handle()
     {
-        dispatch(new RemoveExpiredMagicCredentialsJob);
+        dispatch(new RemoveExpiredLoginCookieJob);
     }
 }
