@@ -7,7 +7,7 @@ use App\MagicCredentials;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class RemoveUsedMagicCredentailsListener implements ShouldQueue
+class RemoveUsedMagicCredentailsListener
 {
     /**
      * Create the event listener.

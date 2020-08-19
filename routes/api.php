@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('login', 'LoginRequestController')->name('login.request');
-Route::get('loginwithemail', 'LoginAuthenticateController')->name('login.authenticate.email');
+Route::middleware('fresh.cookies')->get('loginwithemail', 'LoginAuthenticateController')->name('login.authenticate.email');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('pudding.auth')->get('/user', function (Request $request) {
     return $request->user();
 });

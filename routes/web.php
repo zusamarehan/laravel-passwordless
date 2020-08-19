@@ -17,9 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'pudding.auth'], function () {
     Route::get('/home', function() {
-        return 'Welcome Home';
+        return 'Welcome Home Mr.'.request()->user()->name;
     });
 });
 
